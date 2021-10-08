@@ -7,6 +7,8 @@ import classes from "./Cart.module.css";
 const Cart = (props) => {
   const cartCtx = useContext(CartContext);
 
+  const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
+
   const cartItems = (
     <ul className={classes["cart-item"]}>
       {cartCtx.items.map((item) => (
@@ -20,7 +22,7 @@ const Cart = (props) => {
       {cartItems}
       <div className={classes.total}>
         <span>Total Amount</span>
-        <span>35.62</span>
+        <span>{totalAmount}</span>
       </div>
       <div className={classes.actions}>
         <button className={classes["button--alt"]} onClick={props.onClose}>
