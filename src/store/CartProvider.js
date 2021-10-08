@@ -31,6 +31,26 @@ const cartReducer = (state, action) => {
       totalAmount: updatedTotalAmount,
     };
   }
+  if (action.type === "REMOVE") {
+    const existingCartItemIndex = state.items.findIndex((item) => item.id === action.id);
+    const existingItem = state.items[existingCartItemIndex];
+    const updatedTotalAmount = state.totalAmount - existingItem.price; //substracts the amount of the removed item from the total
+    let updatedItems;
+
+    if (existingItem.amount === 1) {
+      //in the case there is only 1 remaining item, we need to remove the entire cart item from the array
+      updatedItems = state.items.filter((item) => item.id !== action.id); //all items that are not equal to the to-be-removed item are kept
+    } else {
+      //we keep the cart item, but we decrease the amount from the cart
+      const updatedItem = { ...existingItem, amount: existingItem.amount - 1 };
+      updatedItems = [...state.items];
+      updatedItems[existingCartItemIndex] = updatedItem; //we update the array with the new total amount
+    }
+    return {
+      items: updatedItems,
+      totalAmount: updatedTotalAmount,
+    };
+  }
   return defaultCartState;
 };
 
